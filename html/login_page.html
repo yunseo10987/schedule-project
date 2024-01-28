@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel = "stylesheet" type="text/css" href="../css/login_page.css">
+</head>
+<body>
+    <main>
+       <form action="login_action.jsp" onsubmit="return checkLogin()">
+            <input id = "input_id" type="text" placeholder="아이디">
+            <div class = "constraint">※영어+숫자 각 최소 1개 이상, 8~12자</div>
+            <input id = "input_pw" type="password" placeholder="비밀번호">
+            <div class = "constraint">※영어+숫자+특수문자 각 최소 1개 이상, 8~16자</div>
+            <input type= "submit" value = "로그인">
+       </form>
+       <div class = "a_box">
+            <a href = "id_find_page.jsp">아이디 찾기</a>
+            <a href = "pw_find_page.jsp">비밀번호 찾기</a>
+        </div>
+        <button onclick="location.href='signup_page.jsp'">회원가입</button>
+    </main>  
+    <script src = "../js/login_check.js"></script>
+</body>
+</html>
