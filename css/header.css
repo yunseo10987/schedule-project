@@ -11,15 +11,15 @@ h1{
 }
 .menu{
     display: flex;
-    margin-right: 20px;
+    margin-right: 10px;
     color: black;
     font-size: 18px;
-    justify-content: space-between;
-    width: 250px;
+    justify-content: space-evenly;
+    width: 320px;
 }
 h2{
     width: 420px;
-    margin: 20px auto 0px auto;
+    margin: 20px auto 20px auto;
     font-size: 40px;
 }
 a{  

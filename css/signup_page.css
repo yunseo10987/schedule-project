@@ -29,7 +29,7 @@ input{
     height: 60px;
     font-size: 24px;
 }
-#input_id{
+#id_imput{
     width: 330px;
 }
 input::placeholder {
@@ -44,7 +44,7 @@ input[type=submit]{
     font-size: 24px;
     height: 60px;
 }
-#button_eye{
+#eye_button{
     position: relative;
     right: 60px;
     top: 10px;
@@ -56,7 +56,7 @@ input[type=submit]{
     border: none;
     background-image: url("../image/눈.png");
 }
-#button_not_eye{
+#not_eye_button{
     position: relative;
     right: 60px;
     top: 10px;
@@ -74,7 +74,7 @@ input[type=submit]{
     justify-content: left;
     margin-left: 40px;
 }
-#show_pw_box{
+#shown_pw_box{
     display: none;
     width: 500px;
     justify-content: left;
@@ -96,4 +96,12 @@ button{
     width: 420px;
     font-size: 12px;
     color: #aeaeae;
+}
+#unsignup_button{
+    margin-top: 20px;
+    background-color: #156082;
+    color: white;
+    width: 200px;
+    font-size: 24px;
+    height: 60px;
 }

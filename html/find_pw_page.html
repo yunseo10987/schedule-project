@@ -9,10 +9,10 @@
 <body>
     <main>
         <h1>비밀번호 찾기</h1>
-        <form action="find_pw_action.jsp" onsubmit="return checkConstraints(true,false,false,true)">
-             <input id = "input_id" type="text" placeholder="아이디">
+        <form action="find_pw_action.jsp" onsubmit="return checkConstraintsEvent({id:true, pw:false,name:false,telNum:true})">
+             <input id = "id_input" type="text" placeholder="아이디">
              <div class = "constraint">※영어+숫자 각 최소 1개 이상, 8~12자</div>
-             <input type="tel" placeholder="연락처">
+             <input id = "tel_input" type="tel" placeholder="연락처">
              <div class = "constraint">※XXX-XXXX-XXXX 형식</div>
              <input type= "submit" value = "비밀번호 찾기">
         </form>

@@ -1,0 +1,209 @@
+body{
+    background-color: #e8e8e8;
+    padding: 0px;
+    margin: 0px;
+}
+main{
+    background-color: white;
+    margin: 50px auto 0px auto;
+    width: 1200px;
+    height: 800px;
+    text-align: center;
+    border-radius: 10%;
+    box-sizing: border-box;
+    padding-top: 25px;
+}
+#year_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#last_year_button{
+    height: 52px;
+    background-color: white;
+    display: inline-block;
+    border: 25px solid transparent;
+    border-right-color: #156082;
+    margin-right: 30px;
+}
+#year{
+    font-size: 50px;
+    font-weight: 800;
+}
+#next_year_button{
+    height: 52px;
+    background-color: white;
+    display: inline-block;
+    border: 25px solid transparent;
+    border-left-color: #156082;
+    margin-left: 30px;
+}
+#month_box{
+    margin: 10px auto 10px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
+    font-size: 32px;
+}
+#month_box > div{
+    text-align: center;
+    width: 54px;
+    border-bottom: 2px solid #e8e8e8;
+}
+#month_box > div> button{
+    background-color: white;
+    font-size: 36px;
+    font-weight: 600;
+    box-sizing: border-box;
+    border: 0;
+}
+
+table{
+    margin: 20px auto 0 auto;
+    width: 1000px;
+    height: 550px;
+    background-color: #e8e8e8;
+    border-collapse: collapse;
+}
+td{
+    border: 5px solid white;
+    width: 150px;
+    height: 109px;
+}
+td > button{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #e8e8e8;
+    border: 0;
+    font-size: 24px;
+    font-weight: 600;
+
+}
+#modal_background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(128, 128, 128, 0.8);
+}
+#modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 10%;
+    width: 650px;
+    height: 700px;
+}
+#modal_top{
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 32px;
+    font-weight: 800;
+    margin-top: 40px;
+}
+#modal_top > button{
+    background-color: white;
+    width: 50px;
+    height: 50px;
+    border: 0;
+    font-size: 36px;
+    font-weight: 800;
+}
+#schedule_box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 520px;
+    height: 450px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.schedule{
+    display: flex;
+    width: 500px;
+    min-height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e8e8e8;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.schedule_time_box{
+    font-size: 24px;
+    margin-left: 10px;
+}
+.schedule_content_box{
+    padding: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+    max-height: 90px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.schedule > select{
+    height: 80px;
+}
+.schedule > textarea{
+    resize: none;
+    width: 300px;
+    height: 80px;
+}
+.save_button, .cancel_button{
+    background-color: #156082;
+    color: white;
+    width: 50px;
+    height: 80px;
+    border-radius: 10px;
+    font-size: 24px;
+}
+.schedule_button_box{
+    display: flex;
+    width: 120px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.delete_button{
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    border: none;
+    background-color: #e8e8e8;
+    background-image: url(../image/휴지통.png);
+}
+.revice_button{
+    width: 42px;
+    height: 42px;
+    margin-right: 10px;
+    background-size: cover;
+    border: none;
+    background-color: #e8e8e8;
+    background-image: url(../image/연필.png);
+}
+#schedule_writing_box{
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+#content_writing_box{
+    resize: none;
+    width: 300px;
+    height: 100px;
+}
+#schedule_writing_box > input[type=submit]{
+    background-color: #156082;
+    color: white;
+    width: 100px;
+    border-radius: 10px;
+    font-size: 24px;
+}

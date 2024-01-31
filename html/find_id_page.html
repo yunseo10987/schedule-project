@@ -9,10 +9,10 @@
 <body>
     <main>
         <h1>아이디 찾기</h1>
-        <form action="find_id_action.jsp" onsubmit="return checkConstraints(false,false,true,true)">
-             <input type="text" placeholder="이름">
+        <form action="find_id_action.jsp" onsubmit="return checkConstraintsEvent({id:false, pw:false,name:true,telNum:true})">
+             <input id = "name_input" type="text" placeholder="이름">
              <div class = "constraint">※최대 12자</div>
-             <input type="tel" placeholder="연락처">
+             <input id = "tel_input" type="tel" placeholder="연락처">
              <div class = "constraint">※XXX-XXXX-XXXX 형식</div>
              <input type= "submit" value = "아이디 찾기">
         </form>

@@ -8,10 +8,10 @@
 </head>
 <body>
     <main>
-       <form action="login_action.jsp" onsubmit="return checkLogin()">
-            <input id = "input_id" type="text" placeholder="아이디">
+       <form action="login_action.jsp" onsubmit="return checkConstraintsEvent({id:true,pw:true,name:false,telNum:false})">
+            <input id = "id_input" type="text" placeholder="아이디">
             <div class = "constraint">※영어+숫자 각 최소 1개 이상, 8~12자</div>
-            <input id = "input_pw" type="password" placeholder="비밀번호">
+            <input class = "pw_input" type="password" placeholder="비밀번호">
             <div class = "constraint">※영어+숫자+특수문자 각 최소 1개 이상, 8~16자</div>
             <input type= "submit" value = "로그인">
        </form>
@@ -21,6 +21,6 @@
         </div>
         <button onclick="location.href='../jsp/signup_page.jsp'">회원가입</button>
     </main>  
-    <script src = "../js/login_check.js"></script>
+    <script src = "../js/check_constraints.js"></script>
 </body>
 </html>
