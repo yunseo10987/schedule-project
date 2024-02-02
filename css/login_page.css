@@ -7,7 +7,7 @@ main{
     background-color: white;
     margin: 100px auto 0px auto;
     width: 500px;
-    height: 400px;
+    height: 430px;
     text-align: center;
     border-radius: 10%;
     box-sizing: border-box;
@@ -24,6 +24,7 @@ input[type=submit]{
     font-size: 24px;
     color: white;
     background-color: #156082;
+    cursor: pointer;
 }
 input::placeholder {
     font-size: 24px;
@@ -56,4 +57,5 @@ button{
     width: 200px;
     font-size: 24px;
     height: 60px;
+    cursor: pointer;
 }

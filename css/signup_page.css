@@ -57,6 +57,7 @@ input[type=submit]{
     background-image: url("../image/눈.png");
 }
 #not_eye_button{
+    display: none;
     position: relative;
     right: 60px;
     top: 10px;
@@ -104,4 +105,15 @@ button{
     width: 200px;
     font-size: 24px;
     height: 60px;
+}
+.a_box{
+    width: 420px;
+    display: inline-block;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+a{
+    text-decoration: none;
+    color: #aeaeae;
 }

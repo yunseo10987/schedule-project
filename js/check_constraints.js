@@ -3,10 +3,9 @@ function checkConstraintsEvent(option){
     var regPw = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
     var regTelNum = /^\d{3}-\d{3,4}-\d{4}$/
     
-
-    if(option.id == true){
-        var idInput = document.getElementById("id_input")
-        var duplicatedIdButton = document.getElementById("duplicated_id_button")
+    if(option.id){
+        var idInput = document.getElementById(option.id)
+        var duplicatedIdButton = document.getElementById(option.duplicatedId)
         if(!regId.test(idInput.value)){
             alert("아이디를 확인해주세요")
             return false
@@ -18,32 +17,22 @@ function checkConstraintsEvent(option){
             }
         }    
     }
-    if(option.pw == true){
-        var pwBox = document.getElementById("pw_box")
-        var pwInput = document.getElementsByClassName("pw_input")[0]
-        var shownPwInput = document.getElementsByClassName("pw_input")[1]
-        if(!shownPwInput || window.getComputedStyle(pwBox).display == "flex"){
-            if(!regPw.test(pwInput.value)){
+    if(option.pw){
+        var pwInput = document.getElementById(option.pw)
+        if(!regPw.test(pwInput.value)){
                 alert("비밀번호를 확인해주세요")
                 return false
-            }
-        }
-        else{
-            if(!regPw.test(shownPwInput.value)){
-                alert("비밀번호를 확인해주세요")
-                return false
-            }
-        }
+        }  
     }
-    if(option.name == true){
-        var nameInput = document.getElementById("name_input")
+    if(option.name){
+        var nameInput = document.getElementById(option.name)
         if(nameInput.value.length > 12 || nameInput.value.length < 1){
             alert("이름을 확인해주세요")
             return false
         }
     }
-    if(option.telNum == true){
-        var telInput = document.getElementById("tel_input")
+    if(option.telNum){
+        var telInput = document.getElementById(option.telNum)
         if(!regTelNum.test(telInput.value)){
             alert("연락처를 확인해주세요")
             return false

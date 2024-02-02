@@ -1,19 +1,13 @@
-function showPwEvent(){
-    var pwBox = document.getElementById("pw_box")
-    var pwShowBox = document.getElementById("shown_pw_box")
-    var pw = document.getElementsByClassName("pw_input")[0]
-    var textpw = document.getElementsByClassName("pw_input")[1]
-    pwBox.style.display = "none"
-    pwShowBox.style.display = "flex"
-    textpw.value = pw.value
+function showPwEvent(e){
+    var pw = document.getElementById("pw_input")
+    pw.type = "text"
+    e.target.style.display = "none"
+    document.getElementById("not_eye_button").style.display = "inline-block"
 }
 
-function hidePwEvent(){
-    var pwBox = document.getElementById("pw_box")
-    var pwShowBox = document.getElementById("shown_pw_box")
-    var pw = document.getElementsByClassName("pw_input")[0]
-    var textpw = document.getElementsByClassName("pw_input")[1]
-    pwBox.style.display = "flex"
-    pwShowBox.style.display = "none"
-    pw.value = textpw.value
+function hidePwEvent(e){
+    var pw = document.getElementById("pw_input")
+    pw.type = "password"
+    e.target.style.display = "none"
+    document.getElementById("eye_button").style.display = "inline-block"
 }
