@@ -4,17 +4,25 @@
 <%@ page import="java.sql.PreparedStatement"%> 
 <%@ page import="java.sql.ResultSet" %> 
 <%@ page import = "java.util.ArrayList" %>
+<%@ page import ="java.time.LocalDate" %>
+<%@ page import ="java.time.ZoneId" %>
+
 <%  
     request.setCharacterEncoding("utf-8"); 
-    
 
     String yearValue = request.getParameter("yearValue");
     String monthValue = request.getParameter("monthValue");
-    if(yearValue == null){
-        yearValue = "2024";
+    
+    LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
+    String defaultYear = String.valueOf(now.getYear());
+    String defaultMonth = String.valueOf(now.getMonthValue());
+    String defaultDay = String.valueOf(now.getDayOfMonth());
+
+    if(yearValue == null){        
+        yearValue = defaultYear;
     }
-    if(monthValue == null){
-        monthValue = "1";
+    if(monthValue == null){        
+        monthValue = defaultMonth;
     }
 %>
 <head>
@@ -70,6 +78,12 @@
     <script>
         var year = <%=yearValue%>
         var month = <%=monthValue%>
+
+        var defaultYear = <%=defaultYear%>
+        var defaultMonth = <%=defaultMonth%>
+        var defaultDay = <%=defaultDay%>
+
+        
         var maxDay = 0
         createCalendar()
         createMonthButton()
@@ -81,6 +95,10 @@
         function setDefault(){
             document.getElementById("year").innerHTML = year
             document.getElementById("month_div" + month).style.borderBottomColor = "#156082"
+            if(year == defaultYear && month == defaultMonth){
+                document.getElementById("day_button" + defaultDay).style.backgroundColor = "#156082"
+            }
+            
         }
         
         function createEvent(){
