@@ -17,7 +17,7 @@
         session = request.getSession();
         String accountIdx = (String)session.getAttribute("idx");
         if(accountIdx == null){
-            response.sendRedirect("login_page.jsp");
+            response.sendRedirect("../page/login_page.jsp");
         }
 
         pwValue = request.getParameter("pw_value");
