@@ -1,13 +1,13 @@
-function showPwEvent(e){
-    var pw = document.getElementById("pw_input")
-    pw.type = "text"
-    e.target.style.display = "none"
-    document.getElementById("not_eye_button").style.display = "inline-block"
-}
-
-function hidePwEvent(e){
-    var pw = document.getElementById("pw_input")
-    pw.type = "password"
-    e.target.style.display = "none"
-    document.getElementById("eye_button").style.display = "inline-block"
+function expressPwEvent(e, anotherButtonId ,pwId){
+    var pwInput = document.getElementById(pwId)
+    if(pwInput.type == "password"){
+        pwInput.type = "text"
+        e.target.style.display = "none"
+        document.getElementById(anotherButtonId).style.display = "inline-block"
+    }
+    else{
+        pwInput.type = "password"
+        e.target.style.display = "none"
+        document.getElementById(anotherButtonId).style.display = "inline-block"
+    }
 }

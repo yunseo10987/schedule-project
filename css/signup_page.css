@@ -75,12 +75,7 @@ input[type=submit]{
     justify-content: left;
     margin-left: 40px;
 }
-#shown_pw_box{
-    display: none;
-    width: 500px;
-    justify-content: left;
-    margin-left: 40px;
-}
+
 button{
     margin-top: 5px;
     width: 80px;

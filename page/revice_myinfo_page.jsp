@@ -18,10 +18,10 @@
     <main>
         <h2>당신의 정보 수정</h2>
        <form action="revice_myinfo_action.jsp" onsubmit="return checkConstraintsEvent({id:false, pw:true, name:true, telNum:true})">
-            <div id = "pw_box">
+           <div id = "pw_box">
                 <input id = "pw_input" type="password" placeholder="비밀번호">
-                <button type= "button" id = "eye_button" onclick="showPwEvent(event)"></button>
-                <button type= "button" id = "not_eye_button" onclick="hidePwEvent(event)"></button>
+                <button type= "button" id = "eye_button" onclick="expressPwEvent(event,'not_eye_button' ,'pw_input')"></button>
+                <button type= "button" id = "not_eye_button" onclick="expressPwEvent(event, 'eye_button', 'pw_input')"></button>
             </div>
             <div class = "constraint">※영어+숫자+특수문자 각 최소 1개 이상, 8~16자</div>
             <input id = "name_input" type="text" placeholder="이름">
