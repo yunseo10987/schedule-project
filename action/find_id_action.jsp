@@ -51,7 +51,7 @@
     <script>
         var data = <%=id%>
         if(!data){
-            alert("일치하는 아이디가 없습니다.")
+            alert("일치하는 아이디가 없습니다. 다시 확인해주세요.")
             location.href = "../page/find_id_page.jsp"
         }
         else{

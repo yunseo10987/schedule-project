@@ -9,6 +9,11 @@
 
 <%  
     request.setCharacterEncoding("utf-8"); 
+    session = request.getSession();
+    String accountIdx = (String)session.getAttribute("idx");
+    if(accountIdx == null){
+        response.sendRedirect("login_page.jsp");
+    }
 
     String yearValue = request.getParameter("yearValue");
     String monthValue = request.getParameter("monthValue");
@@ -38,7 +43,7 @@
         <div class = "menu">
             <a href = "myinfo_page.jsp">내 정보 보기</a>
             <a href = "revice_myinfo_page.jsp">내 정보 수정</a>
-            <a href = "logout_action.jsp">로그아웃</a>
+            <a href = "../action/logout_action.jsp">로그아웃</a>
         </div>
     </header>
     <main>

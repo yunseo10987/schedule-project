@@ -59,7 +59,7 @@
             location.href = "../page/login_page.jsp"
         }
         if(!data){
-            alert("아이디 혹은 비밀번호가 틀렸습니다.")
+            alert("아이디/비밀번호가 일치하지 않습니다. 다시 확인해주세요.")
             location.href = "../page/login_page.jsp"
         }
         else{

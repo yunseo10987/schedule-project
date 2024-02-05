@@ -15,6 +15,7 @@
     String pwValue = request.getParameter("pw_value");
     String nameValue = request.getParameter("name_value");
     String telValue = request.getParameter("tel_value");
+    String idxValue = "";
 
     try{
 
@@ -29,23 +30,36 @@
         }
         if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
             error = true;
+        }
 
-        }   
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234");
+
+        
+        String firstSql = "SELECT idx FROM account WHERE id =?"; 
+        PreparedStatement firstQuery = conn.prepareStatement(firstSql);
+        firstQuery.setString(1, idValue);
+
+        ResultSet firstResult = firstQuery.executeQuery(); 
+
+        while(firstResult.next()){
+            idxValue = firstResult.getString(1);    
+        }    
+        
+        if(idxValue != ""){
+            error = true;        
+        }
 
 
         if(!error){
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234");
+            String seconSql = "INSERT INTO account(id, password, name, tel_number) VALUES(?, ?, ?, ?)"; 
+            PreparedStatement secondQuery = conn.prepareStatement(seconSql); 
+            secondQuery.setString(1, idValue);
+            secondQuery.setString(2, pwValue);
+            secondQuery.setString(3, nameValue);
+            secondQuery.setString(4, telValue);
 
-            
-            String sql = "INSERT INTO account(id, password, name, tel_number) VALUES(?, ?, ?, ?)"; 
-            PreparedStatement query = conn.prepareStatement(sql); 
-            query.setString(1, idValue);
-            query.setString(2, pwValue);
-            query.setString(3, nameValue);
-            query.setString(4, telValue);
-
-            query.executeUpdate(); 
+            secondQuery.executeUpdate(); 
         }
     }
     catch(Exception e){
