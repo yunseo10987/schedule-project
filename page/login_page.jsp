@@ -11,7 +11,7 @@
        <form action="../action/login_action.jsp" onsubmit="return checkConstraintsEvent({id:'id_input', pw:'pw_input'})">
             <input id = "id_input" name ="id_value" type="text" placeholder="아이디">
             <div class = "constraint">※영어+숫자 각 최소 1개 이상, 8~12자</div>
-            <input class = "pw_input" name = "id_value" type="password" placeholder="비밀번호">
+            <input id = "pw_input" name = "pw_value" type="password" placeholder="비밀번호">
             <div class = "constraint">※영어+숫자+특수문자 각 최소 1개 이상, 8~16자</div>
             <input type= "submit" value = "로그인">
        </form>

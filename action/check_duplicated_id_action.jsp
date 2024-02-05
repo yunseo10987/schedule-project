@@ -12,11 +12,10 @@
     boolean error = false;
     String idx = null;
     String id = null;
-
+    
     try{
         String idValue = request.getParameter("id_value");
-        id =  "\"" + idValue + "\"";
-       
+        id = "\"" + idValue + "\"";
         if(!Pattern.matches("^(?=.*\\d)(?=.*[a-z])[0-9a-z]{8,12}$", idValue)){
             error = true;
         }
@@ -32,9 +31,7 @@
         while(result.next()){
             idx = result.getString(1);    
         }
-        if(idx==null){
-            id = "\"" + idValue + "\"";
-        }
+        
             
     }   
     catch(Exception e){

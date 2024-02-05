@@ -6,43 +6,40 @@
 <%@ page import ="java.util.regex.*"%> 
 <%@ page import = "java.util.ArrayList" %>
 
-
 <%
     request.setCharacterEncoding("utf-8"); 
     String idValue = request.getParameter("id_value");
-    String pwValue = request.getParameter("pw_value");
-    String idx = null;
+    String telValue = request.getParameter("tel_value");
+    String pw = null;
     boolean error = false;
 
     try{
         if(!Pattern.matches("^(?=.*\\d)(?=.*[a-z])[0-9a-z]{8,12}$", idValue)){
             error = true;
         }
-        if(!Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@[$]!%*#^?&\\(\\)-_=+]).{8,16}$", pwValue)){
+        if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
             error = true;
-        }
+        } 
 
-        if(!error){
+       if(!error){
             Class.forName("com.mysql.jdbc.Driver"); 
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); //db 주소 포트번호, 계정
 
-            String sql = "SELECT idx FROM account WHERE id =? AND password =?"; 
+            String sql = "SELECT password FROM account WHERE id =? AND tel_number =?"; 
             PreparedStatement query = conn.prepareStatement(sql); 
             query.setString(1, idValue);
-            query.setString(2, pwValue);
+            query.setString(2, telValue);
 
             ResultSet result = query.executeQuery(); 
             while(result.next()){
-                idx = result.getString(1); 
+                pw = "\"" + result.getString(1) + "\"";
             }
-            if(idx != null){
-                session.setAttribute("idx", idx);
-            }
-        }
+       }
     }
     catch(Exception e){
         response.sendRedirect("error_page.jsp");
     }
+    
 %>
 
 <head>
@@ -52,18 +49,13 @@
 </head>
 <body>
     <script>
-        var error = <%=error%>
-        var data = <%=idx%>
-        if(error){
-            alert("로그인에 실패하였습니다.")
-            location.href = "../page/login_page.jsp"
-        }
+        var data = <%=pw%>
         if(!data){
-            alert("아이디 혹은 비밀번호가 틀렸습니다.")
-            location.href = "../page/login_page.jsp"
+            alert("일치하는 비밀번호가 없습니다.")
+            location.href = "../page/find_pw_page.jsp"
         }
         else{
-            location.href = "../page/main_page.jsp"
+            location.href = "../page/find_pw_result_page.jsp?pw_value=" + data
         } 
     </script>
 </body>

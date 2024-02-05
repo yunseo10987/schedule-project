@@ -17,21 +17,21 @@
 </head>
 <body>
     <main>
-       <form action="signup_action.jsp" onsubmit="return checkConstraintsEvent({id:'id_input',duplicatedId:'duplicated_id_button',pw:'pw_input', name:'name_input', telNum:'tel_input'})">
+       <form action="../action/signup_action.jsp" onsubmit="return checkConstraintsEvent({id:'id_input',duplicatedId:'duplicated_id_button',pw:'pw_input', name:'name_input', telNum:'tel_input'})">
             <div class = "id_box">
-                <input id = "id_input" oninput = "ableButtonEvent()" type="text" placeholder="아이디" >
+                <input id = "id_input" name ="id_value" oninput = "ableButtonEvent()" type="text" placeholder="아이디" >
                 <button id = "duplicated_id_button" type= "button" onclick="checkDuplicatedIdEvent(event)">중복 확인</button>
             </div>
             <div class = "constraint">※영어+숫자 각 최소 1개 이상, 8~12자</div>
             <div id = "pw_box">
-                <input id = "pw_input" type="password" placeholder="비밀번호">
+                <input id = "pw_input" name ="pw_value" type="password" placeholder="비밀번호">
                 <button type= "button" id = "eye_button" onclick="expressPwEvent(event,'not_eye_button' ,'pw_input')"></button>
                 <button type= "button" id = "not_eye_button" onclick="expressPwEvent(event, 'eye_button', 'pw_input')"></button>
             </div>
             <div class = "constraint">※영어+숫자+특수문자 각 최소 1개 이상, 8~16자</div>
-            <input id = "name_input" type="text" placeholder="이름">
+            <input id = "name_input" name ="name_value"type="text" placeholder="이름">
             <div class = "constraint">※최대 12자</div>
-            <input id = "tel_input" oninput = "insertHipenEvent(event)" type="tel" placeholder="연락처">
+            <input id = "tel_input" name ="tel_value" oninput = "insertHipenEvent(event)" type="tel" placeholder="연락처">
             <div class = "constraint">※XXX-XXXX-XXXX 형식</div>
             <input type= "submit" value = "가입하기">
             <div class = "a_box">
@@ -39,6 +39,7 @@
             </div>
        </form>
        <script src ="../js/check_constraints.js"></script>
+       <script src ="../js/insert_hipen.js"></script>
        <script src ="../js/eye_button.js"></script>
        <script>
         function checkDuplicatedIdEvent(e){
@@ -69,14 +70,7 @@
                 document.getElementById("duplicated_id_button").style.color = "#aeaeae"
             }
         }
-        function insertHipenEvent(e){
-            if(e.target.value.length < 14){
-                e.target.value =  e.target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "")
-            }
-            else{
-                e.target.value = e.target.value.substr(0, 13)
-            }
-        }
+        
 
         setDefault()
        </script>

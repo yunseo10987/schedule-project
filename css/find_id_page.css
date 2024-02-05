@@ -7,7 +7,7 @@ main{
     background-color: white;
     margin: 100px auto 0px auto;
     width: 500px;
-    height: 400px;
+    height: 450px;
     text-align: center;
     border-radius: 10%;
     box-sizing: border-box;
@@ -41,5 +41,16 @@ input::placeholder {
     text-align: left;
     width: 420px;
     font-size: 12px;
+    color: #aeaeae;
+}
+.a_box{
+    width: 420px;
+    display: inline-block;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+a{
+    text-decoration: none;
     color: #aeaeae;
 }
