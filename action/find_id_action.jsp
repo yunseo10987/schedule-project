@@ -8,13 +8,16 @@
 
 <%
     request.setCharacterEncoding("utf-8"); 
-    String nameValue = request.getParameter("name_value");
-    String telValue = request.getParameter("tel_value");
+    String nameValue = null;
+    String telValue = null;
     String id = null;
     boolean error = false;
 
     try{
-        if(nameValue.length() > 12){
+        nameValue = request.getParameter("name_value");
+        telValue = request.getParameter("tel_value");
+
+        if(nameValue.length() > 12 || nameValue.length() < 1){
             error = true;
         }
         if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
@@ -37,7 +40,7 @@
        }
     }
     catch(Exception e){
-        response.sendRedirect("error_page.jsp");
+        response.sendRedirect("../page/error_page.jsp");
     }
     
 %>

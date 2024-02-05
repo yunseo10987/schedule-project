@@ -35,7 +35,7 @@
             
     }   
     catch(Exception e){
-        response.sendRedirect("error_page.jsp");
+        response.sendRedirect("../page/error_page.jsp");
     }
 %>
 

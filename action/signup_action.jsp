@@ -11,13 +11,17 @@
  <% 
     request.setCharacterEncoding("utf-8"); 
     boolean error = false;
-    String idValue = request.getParameter("id_value");
-    String pwValue = request.getParameter("pw_value");
-    String nameValue = request.getParameter("name_value");
-    String telValue = request.getParameter("tel_value");
+    String idValue = null;
+    String pwValue = null;
+    String nameValue = null;
+    String telValue = null;
     String idxValue = "";
 
     try{
+        idValue = request.getParameter("id_value");
+        pwValue = request.getParameter("pw_value");
+        nameValue = request.getParameter("name_value");
+        telValue = request.getParameter("tel_value");
 
         if(!Pattern.matches("^(?=.*\\d)(?=.*[a-z])[0-9a-z]{8,12}$", idValue)){
             error = true;
@@ -25,7 +29,7 @@
         if(!Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@[$]!%*#^?&\\(\\)-_=+]).{8,16}$", pwValue)){
             error = true;
         }
-        if(nameValue.length() > 12){
+        if(nameValue.length() > 12 || nameValue.length() < 1){
             error = true;
         }
         if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
@@ -63,7 +67,7 @@
         }
     }
     catch(Exception e){
-        response.sendRedirect("error_page.jsp");
+        response.sendRedirect("../page/error_page.jsp");
     }
     
 %>

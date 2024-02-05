@@ -8,12 +8,15 @@
 
 <%
     request.setCharacterEncoding("utf-8"); 
-    String idValue = request.getParameter("id_value");
-    String telValue = request.getParameter("tel_value");
+    String idValue = null;
+    String telValue = null;
     String pw = null;
     boolean error = false;
 
     try{
+        idValue = request.getParameter("id_value");
+        telValue = request.getParameter("tel_value");
+
         if(!Pattern.matches("^(?=.*\\d)(?=.*[a-z])[0-9a-z]{8,12}$", idValue)){
             error = true;
         }
@@ -37,7 +40,7 @@
        }
     }
     catch(Exception e){
-        response.sendRedirect("error_page.jsp");
+        response.sendRedirect("../page/error_page.jsp");
     }
     
 %>
