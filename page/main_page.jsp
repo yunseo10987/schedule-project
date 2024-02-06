@@ -51,7 +51,7 @@
                 Class.forName("com.mysql.jdbc.Driver"); 
                 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
                 ArrayList<ArrayList<String>> elem = new ArrayList<ArrayList<String>>();
-                String sql = "SELECT hour, minute, content FROM schedule WHERE year =? AND month =? AND writer =? AND day=?"; 
+                String sql = "SELECT idx, hour, minute, content FROM schedule WHERE year =? AND month =? AND writer =? AND day=? ORDER BY hour,minute"; 
                 PreparedStatement query = conn.prepareStatement(sql); 
                 query.setString(1, yearValue);
                 query.setString(2, monthValue);
@@ -60,12 +60,13 @@
 
                 ResultSet result = query.executeQuery(); 
                 while(result.next()){
-        
-                    String hour = result.getString(1);
-                    String minute = result.getString(2);
-                    String content = result.getString(3);
+                    String idx = result.getString(1);
+                    String hour = result.getString(2);
+                    String minute = result.getString(3);
+                    String content = result.getString(4);
                     ArrayList<String> list = new ArrayList<String>();
                     
+                    list.add("\"" + idx + "\"");
                     list.add("\"" + hour + "\"");
                     list.add("\"" + minute + "\"");
                     list.add("\"" + content + "\"");
@@ -185,7 +186,6 @@
                     document.getElementsByName("year_value")[0].value = year
                     document.getElementsByName("month_value")[0].value = month
                     document.getElementsByName("day_value")[0].value = number
-                    console.log(list[number-1])
                     createModal(list[number-1])
                 })
 

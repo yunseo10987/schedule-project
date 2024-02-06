@@ -62,26 +62,44 @@ function createDayButton(list){
 }
 
 function createModal(list){
-    console.log(list)
     var scheduleNum = list.length
     var scheduleBox = document.getElementById("schedule_box")
     var textarea = document.getElementById("content_writing_box")
     createTimeOption("hour_select", "minute_select", null)
     textarea.value = ""
     scheduleBox.innerHTML = ""
+
     for(var index = 0; index < scheduleNum; index++){
         var schedule = document.createElement("form")
         schedule.className = "schedule"
         schedule.id = "schedule" + index
-        schedule.action = ""
+        schedule.action = "../action/revice_schedule_action.jsp"
         var timeBox = document.createElement("div")
         timeBox.className = "schedule_time_box"
         timeBox.id = "schedule_time_box" + index
-        timeBox.innerHTML = list[index][0] + " : " + list[index][1]
+        if(list[index][1] < 10 && list[index][2] < 10){
+            timeBox.innerHTML = "0" + list[index][1] + " : 0" + list[index][2]
+        }
+        else if(list[index][1] < 10){
+            timeBox.innerHTML = "0" + list[index][1] + " : " + list[index][2]
+        }
+        else if(list[index][2] < 10){
+            timeBox.innerHTML = list[index][1] + " : 0" + list[index][2]
+        }
+        else{
+            timeBox.innerHTML = list[index][1] + " : " + list[index][2]
+        }
+        var hiddenIdx = document.createElement("input")
+        hiddenIdx.type = "hidden"
+        hiddenIdx.name = "idx_value"
+        hiddenIdx.value = list[index][0]
+
+
         var contentBox = document.createElement("div")
         contentBox.className = "schedule_content_box"
         contentBox.id = "schedule_content_box" + index
-        contentBox.innerHTML = list[index][2]
+        contentBox.innerHTML = list[index][3]
+
         var buttonBox = document.createElement("div")
         var reviceButton = document.createElement("input")
         reviceButton.type = "button"
@@ -97,12 +115,15 @@ function createModal(list){
 
         var hourSelect = document.createElement("select")
         hourSelect.id = "revice_hour_select" + index
+        hourSelect.name = "hour_value"
         hourSelect.style.display = "none"
         var minuteSelect = document.createElement("select")
         minuteSelect.id = "revice_minute_select" + index
+        minuteSelect.name = "minute_value"
         minuteSelect.style.display = "none"
         var reviceTextArea = document.createElement("textarea")
         reviceTextArea.id = "revice_textarea" + index
+        reviceTextArea.name = "text_value"
         reviceTextArea.style.display = "none"
 
 
@@ -121,6 +142,7 @@ function createModal(list){
         cancelButton.style.display = "none"
         cancelButton.addEventListener('click', deleteReviceAreaEvent)
 
+        schedule.appendChild(hiddenIdx)
         schedule.appendChild(hourSelect)
         schedule.appendChild(minuteSelect)
         schedule.appendChild(reviceTextArea)

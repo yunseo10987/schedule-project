@@ -10,9 +10,10 @@
     request.setCharacterEncoding("utf-8");
 
     boolean error = false;
-    String pwValue = null;
-    String nameValue = null;
-    String telValue = null;
+    String idxValue = null;
+    String hourValue = null;
+    String minuteValue = null;
+    String textValue = null;
     try{
         session = request.getSession();
         String accountIdx = (String)session.getAttribute("idx");
@@ -20,16 +21,18 @@
             response.sendRedirect("../page/login_page.jsp");
         }
 
-        pwValue = request.getParameter("pw_value");
-        nameValue = request.getParameter("name_value");
-        telValue = request.getParameter("tel_value");
-        if(!Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@[$]!%*#^?&\\(\\)-_=+]).{8,16}$", pwValue)){
+        idxValue = request.getParameter("idx_value");
+        hourValue = request.getParameter("hour_value");
+        minuteValue = request.getParameter("minute_value");
+        textValue = request.getParameter("text_value");
+
+        if(Integer.valueOf(hourValue) > 24 || Integer.valueOf(hourValue) < 0){
             error = true;
         }
-        if(nameValue.length() > 12 || nameValue.length() < 1){
+        if(Integer.valueOf(minuteValue) >59 || Integer.valueOf(minuteValue) < 0){
             error = true;
         }
-        if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
+        if(textValue.length() < 0 || textValue.length() > 100){
             error = true;
         }
 
@@ -38,13 +41,13 @@
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
 
             
-            String sql = "UPDATE account SET password=?, name=?, tel_number=? WHERE idx =?"; 
+            String sql = "UPDATE schedule SET hour=?, minute=?, content=? WHERE idx =?"; 
             PreparedStatement query = conn.prepareStatement(sql); 
         
-            query.setString(1, pwValue);
-            query.setString(2, nameValue);
-            query.setString(3, telValue);
-            query.setString(4, accountIdx);
+            query.setString(1, hourValue);
+            query.setString(2, minuteValue);
+            query.setString(3, textValue);
+            query.setString(4, idxValue);
         
             query.executeUpdate(); 
         }
@@ -64,12 +67,11 @@
     <script>
         var error = <%=error%>
         if(!error){
-            alert("회원정보가 수정되었습니다.")
-            location.href= "../page/myinfo_page.jsp"
+            location.href= "../page/main_page.jsp"
         }
         else{
-            alert("회원정보 수정 실패하였습니다.")
-            location.href= "../page/myinfo_page.jsp"
+            alert("스케쥴 수정 실패하였습니다.")
+            //location.href= "../page/main_page.jsp"
         }
         
     </script>
