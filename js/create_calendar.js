@@ -90,9 +90,18 @@ function createModal(list){
             timeBox.innerHTML = list[index][1] + " : " + list[index][2]
         }
         var hiddenIdx = document.createElement("input")
+        var hiddenYear = document.createElement("input")
+        var hiddenMonth = document.createElement("input")
         hiddenIdx.type = "hidden"
+        hiddenYear.type = "hidden"
+        hiddenMonth.type = "hidden"
+        hiddenIdx.id = "hidden" + index
         hiddenIdx.name = "idx_value"
+        hiddenYear.name = "year_value"
+        hiddenMonth.name = "month_value"
         hiddenIdx.value = list[index][0]
+        hiddenYear.value = year
+        hiddenMonth.value = month
 
 
         var contentBox = document.createElement("div")
@@ -111,7 +120,7 @@ function createModal(list){
         deleteButton.type = "button"
         deleteButton.className = "delete_button"
         deleteButton.id = "delete_button" + index
-        deleteButton.onclick = deleteScheduleEvent
+        deleteButton.addEventListener('click', deleteScheduleEvent)
 
         var hourSelect = document.createElement("select")
         hourSelect.id = "revice_hour_select" + index
@@ -143,6 +152,8 @@ function createModal(list){
         cancelButton.addEventListener('click', deleteReviceAreaEvent)
 
         schedule.appendChild(hiddenIdx)
+        schedule.appendChild(hiddenYear)
+        schedule.appendChild(hiddenMonth)
         schedule.appendChild(hourSelect)
         schedule.appendChild(minuteSelect)
         schedule.appendChild(reviceTextArea)

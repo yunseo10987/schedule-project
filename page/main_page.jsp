@@ -32,10 +32,10 @@
         defaultMonth = String.valueOf(now.getMonthValue());
         defaultDay = String.valueOf(now.getDayOfMonth());
 
-        if(yearValue == null){        
+        if(yearValue == null || yearValue == "null"){        
             yearValue = defaultYear;
         }
-        if(monthValue == null){        
+        if(monthValue == null || monthValue == "null"){        
             monthValue = defaultMonth;
         }
         
@@ -78,7 +78,7 @@
 
     }
     catch(Exception e){
-        response.sendRedirect("error_page.jsp");
+        //response.sendRedirect("error_page.jsp");
     }
 %>
 <head>
@@ -193,10 +193,11 @@
         }
 
         
-        function deleteScheduleEvent(){
+        function deleteScheduleEvent(e){
+            var number = e.target.id.replace(/\D/g, "")
             var flag = confirm("삭제하시겠습니까?")
             if(flag){
-                //location.href = delete_schedule_action.jsp
+                location.href = "../action/delete_schedule_action.jsp?idx_value=" + document.getElementById("hidden" + number).value +"&yearValue=" + year + "&monthValue=" + month
             }
         }
         function closeModalEvent(){
