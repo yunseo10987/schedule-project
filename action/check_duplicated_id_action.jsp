@@ -59,7 +59,8 @@
         }
         else{
             alert(<%=id%> + "는 사용 불가능한 아이디입니다.")
-            window.history.back();
+            document.getElementsByName("able_id")[0].value = null
+            document.getElementById("data").submit()
         }
     </script>
 </body>

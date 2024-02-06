@@ -8,26 +8,76 @@
 <%@ page import ="java.time.ZoneId" %>
 
 <%  
-    request.setCharacterEncoding("utf-8"); 
-    session = request.getSession();
-    String accountIdx = (String)session.getAttribute("idx");
-    if(accountIdx == null){
-        response.sendRedirect("login_page.jsp");
-    }
+    String yearValue = null;
+    String monthValue = null;
+    String defaultYear = null;
+    String defaultMonth = null;
+    String defaultDay = null;
+    String accountIdx = null;
+    boolean error = false;
+    ArrayList<ArrayList<ArrayList<String>>> data =  new ArrayList<ArrayList<ArrayList<String>>>();
 
-    String yearValue = request.getParameter("yearValue");
-    String monthValue = request.getParameter("monthValue");
-    
-    LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
-    String defaultYear = String.valueOf(now.getYear());
-    String defaultMonth = String.valueOf(now.getMonthValue());
-    String defaultDay = String.valueOf(now.getDayOfMonth());
+    try{
+        request.setCharacterEncoding("utf-8"); 
+        session = request.getSession();
+        accountIdx = (String)session.getAttribute("idx");
+        if(accountIdx == null){
+            response.sendRedirect("login_page.jsp");
+        }
+        yearValue = request.getParameter("yearValue");
+        monthValue = request.getParameter("monthValue");
+        
+        LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        defaultYear = String.valueOf(now.getYear());
+        defaultMonth = String.valueOf(now.getMonthValue());
+        defaultDay = String.valueOf(now.getDayOfMonth());
 
-    if(yearValue == null){        
-        yearValue = defaultYear;
+        if(yearValue == null){        
+            yearValue = defaultYear;
+        }
+        if(monthValue == null){        
+            monthValue = defaultMonth;
+        }
+        
+        if(Integer.valueOf(yearValue) > 2199 || Integer.valueOf(yearValue) < 1901){
+            error = true;
+        }
+        if(Integer.valueOf(monthValue) > 12 || Integer.valueOf(monthValue) < 1){
+            error = true;
+        }
+
+        if(!error){
+            for(int i = 1; i <= 31; i++){
+                Class.forName("com.mysql.jdbc.Driver"); 
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
+                ArrayList<ArrayList<String>> elem = new ArrayList<ArrayList<String>>();
+                String sql = "SELECT hour, minute, content FROM schedule WHERE year =? AND month =? AND writer =? AND day=?"; 
+                PreparedStatement query = conn.prepareStatement(sql); 
+                query.setString(1, yearValue);
+                query.setString(2, monthValue);
+                query.setString(3, accountIdx);
+                query.setString(4, String.valueOf(i));
+
+                ResultSet result = query.executeQuery(); 
+                while(result.next()){
+        
+                    String hour = result.getString(1);
+                    String minute = result.getString(2);
+                    String content = result.getString(3);
+                    ArrayList<String> list = new ArrayList<String>();
+                    
+                    list.add("\"" + hour + "\"");
+                    list.add("\"" + minute + "\"");
+                    list.add("\"" + content + "\"");
+                    elem.add(list);
+                }
+                data.add(elem);
+            }
+        }     
+
     }
-    if(monthValue == null){        
-        monthValue = defaultMonth;
+    catch(Exception e){
+        response.sendRedirect("error_page.jsp");
     }
 %>
 <head>
@@ -65,14 +115,17 @@
             </div>
             <div id = schedule_box>
             </div>
-            <form id = "schedule_writing_box" action ="" onsubmit = "return checkScheduleInputEvent()">
-                <select id = "hour_select">
-                    <option value = "" disabled selected>시</option>
+            <form id = "schedule_writing_box" action ="../action/create_schedule_action.jsp" onsubmit = "return checkScheduleInputEvent('hour_select', 'minute_select', 'content_writing_box')">
+                <select id = "hour_select" name = "hour_value">
+                    <option disabled selected>시</option>
                 </select>
-                <select id = "minute_select" >
-                    <option value = "" disabled selected>분</option>
+                <select id = "minute_select" name = "minute_value" >
+                    <option disabled selected>분</option>
                 </select>
-                <textarea id = "content_writing_box" placeholder ="텍스트 입력"></textarea>
+                <textarea id = "content_writing_box" name = "text_value" placeholder ="텍스트 입력"></textarea>
+                <input type = "hidden" name = "year_value">
+                <input type = "hidden" name = "month_value">
+                <input type = "hidden" name = "day_value">
                 <input type = "submit" value = "등록">
             </form>
         </div>
@@ -81,6 +134,7 @@
     <script src = "../js/check_constraints.js"></script>
     <script src = "../js/create_calendar.js"></script>
     <script>
+        var list = <%=data%>
         var year = <%=yearValue%>
         var month = <%=monthValue%>
 
@@ -92,8 +146,8 @@
         var maxDay = 0
         createCalendar()
         createMonthButton()
-        createEvent()
-        maxDay = createDayButton()
+        createMonthEvent()
+        maxDay = createDayButton(list)
         setDefault()
         showModal()
 
@@ -106,7 +160,7 @@
             
         }
         
-        function createEvent(){
+        function createMonthEvent(){
             var lastYearButton = document.getElementById("last_year_button")
             for(var index = 0; index < 12; index++){
                 var monthButton = document.getElementById("month_button" + (index+1))
@@ -128,83 +182,16 @@
                     var number = e.target.id.replace(/\D/g, "")
                     document.getElementById("modal_background").style.display = "flex"
                     document.getElementById("date_box").innerHTML = month+"/"+number
-                    createModal()
+                    document.getElementsByName("year_value")[0].value = year
+                    document.getElementsByName("month_value")[0].value = month
+                    document.getElementsByName("day_value")[0].value = number
+                    console.log(list[number-1])
+                    createModal(list[number-1])
                 })
 
             }
         }
-        function createModal(){
-            var scheduleNum = 3
-            var scheduleBox = document.getElementById("schedule_box")
-            var textarea = document.getElementById("content_writing_box")
-            createTimeOption()
-            textarea.value = ""
-            scheduleBox.innerHTML = ""
-            for(var index = 0; index < scheduleNum; index++){
-                var schedule = document.createElement("div")
-                schedule.className = "schedule"
-                schedule.id = "schedule" + index
-                var timeBox = document.createElement("div")
-                timeBox.className = "schedule_time_box"
-                timeBox.id = "schedule_time_box" + index
-                timeBox.innerHTML = "시간"
-                var contentBox = document.createElement("div")
-                contentBox.className = "schedule_content_box"
-                contentBox.id = "schedule_content_box" + index
-                contentBox.innerHTML = "일정"
-                var buttonBox = document.createElement("div")
-                var reviceButton = document.createElement("input")
-                reviceButton.type = "button"
-                reviceButton.className = "revice_button"
-                reviceButton.id = "revice_button" + index
-                var deleteButton = document.createElement("input")
-                deleteButton.type = "button"
-                deleteButton.className = "delete_button"
-                deleteButton.id = "delete_button" + index
-                deleteButton.onclick = deleteScheduleEvent
 
-                var hourSelect = document.createElement("select")
-                hourSelect.id = "revice_hour_select" + index
-                hourSelect.style.display = "none"
-                var minuteSelect = document.createElement("select")
-                minuteSelect.id = "revice_minute_select" + index
-                minuteSelect.style.display = "none"
-                var reviceTextArea = document.createElement("textarea")
-                reviceTextArea.id = "revice_textarea" + index
-                reviceTextArea.style.display = "none"
-                var saveButton = document.createElement("button")
-                saveButton.innerHTML = "저장"
-                saveButton.id = "save_button" + index
-                saveButton.className = "save_button"
-                saveButton.style.display = "none"
-                var cancelButton = document.createElement("button")
-            
-                cancelButton.innerHTML = "취소"
-                cancelButton.id = "cancel_button" + index
-                cancelButton.className = "cancel_button"
-                cancelButton.style.display = "none"
-                //cancelButton.addEventListener('click' 함수 이름)
-
-                schedule.appendChild(hourSelect)
-                schedule.appendChild(minuteSelect)
-                schedule.appendChild(reviceTextArea)
-                schedule.appendChild(saveButton)
-                schedule.appendChild(cancelButton)
-
-                schedule.appendChild(timeBox)
-                schedule.appendChild(contentBox)
-                schedule.appendChild(buttonBox)
-                buttonBox.appendChild(reviceButton)
-                buttonBox.appendChild(deleteButton)
-                schedule_box.appendChild(schedule)
-                createReviceTimeOption(index)
-            }
-
-
-            createReviceArea(scheduleNum)
-            deleteReviceArea(scheduleNum)
-            checkReviceArea(scheduleNum)
-        }
         
         function deleteScheduleEvent(){
             var flag = confirm("삭제하시겠습니까?")
@@ -225,69 +212,54 @@
             year = year + 1
             location.href = "main_page.jsp?" + "yearValue=" + year + "&monthValue="+ month 
         }
-        function createReviceArea(num){
-            for(var index =0; index < num; index++){
-                var reviceButton = document.getElementById("revice_button" + index)
-                reviceButton.addEventListener('click' , (e) =>{
-                    var number = e.target.id.replace(/\D/g, "")
-                    document.getElementById("schedule_time_box" + number).style.display = "none"
-                    document.getElementById("schedule_time_box" + number).style.display = "none"
-                    document.getElementById("schedule_content_box" + number).style.display = "none"
-                    document.getElementById("revice_button" + number).style.display = "none"
-                    document.getElementById("delete_button" + number).style.display = "none"
-                    document.getElementById("revice_hour_select" + number).style.display = "flex"
-                    document.getElementById("revice_minute_select" + number).style.display = "flex"
-                    document.getElementById("revice_textarea" + number).style.display = "flex"
-                    document.getElementById("revice_textarea" + number).value = document.getElementById("schedule_content_box" + number).innerHTML
-                    document.getElementById("save_button" + number).style.display = "flex"
-                    document.getElementById("cancel_button" + number).style.display = "flex"
-                    
-                })
-            }
+        
+        function createReviceAreaEvent(e){
+            var number = e.target.id.replace(/\D/g, "")
+            document.getElementById("schedule_time_box" + number).style.display = "none"
+            document.getElementById("schedule_time_box" + number).style.display = "none"
+            document.getElementById("schedule_content_box" + number).style.display = "none"
+            document.getElementById("revice_button" + number).style.display = "none"
+            document.getElementById("delete_button" + number).style.display = "none"
+            document.getElementById("revice_hour_select" + number).style.display = "flex"
+            document.getElementById("revice_minute_select" + number).style.display = "flex"
+            document.getElementById("revice_textarea" + number).style.display = "flex"
+            document.getElementById("revice_textarea" + number).value = document.getElementById("schedule_content_box" + number).innerHTML
+            document.getElementById("save_button" + number).style.display = "flex"
+            document.getElementById("cancel_button" + number).style.display = "flex"          
         }
-        function deleteReviceArea(num){
-            for(var index =0; index < num; index++){
-                var cancelButton = document.getElementById("cancel_button" + index)
-                cancelButton.addEventListener('click' , (e) =>{
-                    var number = e.target.id.replace(/\D/g, "")
-                    document.getElementById("schedule_time_box" + number).style.display = "flex"
-                    document.getElementById("schedule_time_box" + number).style.display = "flex"
-                    document.getElementById("schedule_content_box" + number).style.display = "flex"
-                    document.getElementById("revice_button" + number).style.display = "inline-block"
-                    document.getElementById("delete_button" + number).style.display = "inline-block"
-                    document.getElementById("revice_hour_select" + number).style.display = "none"
-                    document.getElementById("revice_minute_select" + number).style.display = "none"
-                    document.getElementById("revice_textarea" + number).style.display = "none"
-                    document.getElementById("save_button" + number).style.display = "none"
-                    document.getElementById("cancel_button" + number).style.display = "none"
-                    
-                })
-            }
+        function deleteReviceAreaEvent(e){    
+            var number = e.target.id.replace(/\D/g, "")
+            document.getElementById("schedule_time_box" + number).style.display = "flex"
+            document.getElementById("schedule_time_box" + number).style.display = "flex"
+            document.getElementById("schedule_content_box" + number).style.display = "flex"
+            document.getElementById("revice_button" + number).style.display = "inline-block"
+            document.getElementById("delete_button" + number).style.display = "inline-block"
+            document.getElementById("revice_hour_select" + number).style.display = "none"
+            document.getElementById("revice_minute_select" + number).style.display = "none"
+            document.getElementById("revice_textarea" + number).style.display = "none"
+            document.getElementById("save_button" + number).style.display = "none"
+            document.getElementById("cancel_button" + number).style.display = "none"
         }
 
-        function checkReviceArea(num){
-            for(var index = 0; index < num; index++){
-                var saveButton = document.getElementById("save_button" + index)
-                saveButton.addEventListener('click', (e) =>{
-                    var number = e.target.id.replace(/\D/g, "")
-                    var reviceHour = document.getElementById("revice_hour_select"+ number)
-                    var reviceMinute = document.getElementById("revice_minute_select"+ number)
-                    var reviceText = document.getElementById("revice_textarea" + number)
-                    if(reviceHour.value == "" || reviceMinute.value == ""){
-                        alert("시간을 확인하세요")
-                        e.preventDefault()
-                    }
-                    if(reviceText.value == ""){
-                        alert("텍스트를 입력하세요")
-                        e.preventDefault()
-                    }
-                    if(reviceText.value.legth > 100){
-                        alert("100자 내로 입력하세요")
-                        e.preventDefault()
-                    }
-                })
+        function checkReviceAreaEvent(e){   
+            var number = e.target.id.replace(/\D/g, "")
+            var reviceHour = document.getElementById("revice_hour_select"+ number)
+            var reviceMinute = document.getElementById("revice_minute_select"+ number)
+            var reviceText = document.getElementById("revice_textarea" + number)
+            if(reviceHour.value == "시" || reviceMinute.value == "분"){
+                alert("시간을 확인하세요")
+                e.preventDefault()
+            }
+            if(reviceText.value == ""){
+                alert("텍스트를 입력하세요")
+                e.preventDefault()
+            }
+            if(reviceText.value.legth > 100){
+                alert("100자 내로 입력하세요")
+                e.preventDefault()
             }
         }
+       
     </script>
 </body>
 </html>

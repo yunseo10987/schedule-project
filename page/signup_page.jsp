@@ -53,6 +53,7 @@
             }
         }
         function ableButtonEvent(){
+            console.log(<%=ableId%>)
             if(document.getElementById("id_input").value != <%=ableId%>){
                 document.getElementById("duplicated_id_button").disabled = false
                 document.getElementById("duplicated_id_button").style.color = "white"
@@ -64,6 +65,7 @@
         }
         function setDefault(){
             var flag = <%=ableId%>
+            console.log(<%=ableId%>)
             if(flag){
                 document.getElementById("id_input").value = <%=ableId%>
                 document.getElementById("duplicated_id_button").disabled = true

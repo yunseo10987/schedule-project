@@ -40,10 +40,10 @@ function checkConstraintsEvent(option){
     }
 }
 
-function checkScheduleInputEvent(){
-    var writingBox = document.getElementById("content_writing_box")
-    var hourBox = document.getElementById("hour_select")
-    var minuteBox = document.getElementById("minute_select")
+function checkScheduleInputEvent(hourId, minuteId, textId){
+    var writingBox = document.getElementById(textId)
+    var hourBox = document.getElementById(hourId)
+    var minuteBox = document.getElementById(minuteId)
     if(writingBox.value.length == 0){
         alert("텍스트를 입력하세요")
         return false
@@ -52,7 +52,9 @@ function checkScheduleInputEvent(){
         alert("100자 내외로 작성하세요")
         return false
     }
-    if(hourBox.value == "" || minuteBox.value == ""){
+    console.log(hourBox.value)
+    console.log(minuteBox.value)
+    if(hourBox.value == "시" || minuteBox.value == "분"){
         alert("시간을 입력하세요")
         return false
     }
