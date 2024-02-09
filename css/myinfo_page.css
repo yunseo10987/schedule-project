@@ -1,20 +1,8 @@
-body{
-    background-color: #e8e8e8;
-    padding: 0px;
-    margin: 0;
-}
-
 main{
-    background-color: white;
-    margin: 100px auto 0px auto;
     width: 500px;
     height: 500px;
-    border-radius: 10%;
-    box-sizing: border-box;
-    padding-top: 25px;
     align-items: center;
 }
-
 .result_box{
     width: 420px;
     height: 250px;

@@ -64,11 +64,12 @@
             query.executeUpdate();
 
         }
-        
     }
     catch(Exception e){
         response.sendRedirect("../page/error_page.jsp");
-    } 
+    }     
+
+
 %>
 
 <head>
@@ -80,7 +81,6 @@
     <script>
         var error = <%=error%>
         if(!error){
-            alert(" 작성되었습니다")
             location.href= "../page/main_page.jsp?yearValue=<%=yearValue%>&monthValue=<%=monthValue%>"
         }
         else{

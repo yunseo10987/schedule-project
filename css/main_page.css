@@ -1,28 +1,13 @@
-body{
-    background-color: #e8e8e8;
-    padding: 0px;
-    margin: 0px;
-}
 main{
-    background-color: white;
     margin: 50px auto 0px auto;
     width: 1200px;
     height: 800px;
     text-align: center;
-    border-radius: 10%;
-    box-sizing: border-box;
-    padding-top: 25px;
 }
 #year_box{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-button{
-    cursor: pointer;
-}
-input[type=button]{
-    cursor: pointer;
 }
 #last_year_button{
     height: 52px;

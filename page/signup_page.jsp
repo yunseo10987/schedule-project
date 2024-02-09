@@ -13,6 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel = "stylesheet" type="text/css" href="../css/root.css">
     <link rel = "stylesheet" type="text/css" href="../css/signup_page.css">
 </head>
 <body>
@@ -42,6 +43,7 @@
        <script src ="../js/insert_hipen.js"></script>
        <script src ="../js/eye_button.js"></script>
        <script>
+
         function checkDuplicatedIdEvent(e){
             var regId =  /^(?=.*\d)(?=.*[a-z])[0-9a-z]{8,12}$/
             var idInput = document.getElementById("id_input")
@@ -52,6 +54,7 @@
                 location.href = "../action/check_duplicated_id_action.jsp?id_value=" + idInput.value
             }
         }
+
         function ableButtonEvent(){
             console.log(<%=ableId%>)
             if(document.getElementById("id_input").value != <%=ableId%>){
@@ -63,6 +66,7 @@
                 document.getElementById("duplicated_id_button").style.color = "#aeaeae"
             }
         }
+        
         function setDefault(){
             var flag = <%=ableId%>
             console.log(<%=ableId%>)

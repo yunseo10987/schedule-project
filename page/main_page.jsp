@@ -78,13 +78,14 @@
 
     }
     catch(Exception e){
-        //response.sendRedirect("error_page.jsp");
+        response.sendRedirect("error_page.jsp");
     }
 %>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel = "stylesheet" type="text/css" href="../css/root.css">
     <link rel = "stylesheet" type="text/css" href="../css/header.css">
     <link rel = "stylesheet" type="text/css" href="../css/main_page.css">
 </head>
@@ -142,15 +143,9 @@
         var defaultYear = <%=defaultYear%>
         var defaultMonth = <%=defaultMonth%>
         var defaultDay = <%=defaultDay%>
+        var maxDay = 0
 
         
-        var maxDay = 0
-        createCalendar()
-        createMonthButton()
-        createMonthEvent()
-        maxDay = createDayButton(list)
-        setDefault()
-        showModal()
 
         function setDefault(){
             document.getElementById("year").innerHTML = year
@@ -176,6 +171,7 @@
                 })
             }
         }
+        
         function showModal(){
             for(var index = 0; index < maxDay; index++){
                 var dayButton = document.getElementById("day_button" + (index+1))
@@ -260,7 +256,15 @@
                 e.preventDefault()
             }
         }
-       
+
+        window.onload = function () {
+            createCalendar()
+            createMonthButton()
+            createMonthEvent()
+            maxDay = createDayButton(list)
+            setDefault()
+            showModal()
+        }
     </script>
 </body>
 </html>

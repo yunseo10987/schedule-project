@@ -1,0 +1,15 @@
+main{
+    text-align: center;
+    width: 500px;
+    height: 350px;
+}
+main > div{
+    font-weight: 600;
+    font-size: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+a{  
+    margin-top: 10px;
+    font-size: 24px;
+}

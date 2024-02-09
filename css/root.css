@@ -1,0 +1,41 @@
+body{
+    background-color: #e8e8e8;
+    padding: 0px;
+    margin: 0px;
+}
+main{
+    background-color: white;
+    margin: 100px auto 0px auto;
+    border-radius: 10%;
+    box-sizing: border-box;
+    padding-top: 25px;
+}
+h1{
+    font-size: 40px;
+}
+h2{
+    font-size: 40px;
+}
+input{
+    box-sizing: border-box;
+    width: 420px;
+    height: 60px;
+    font-size: 24px;
+}
+input[type=button]{
+    cursor: pointer;
+}
+input[type=submit]{
+    cursor: pointer;
+}
+button{
+    cursor: pointer;
+}
+input::placeholder {
+    font-size: 24px;
+    color: #aeaeae;
+}
+a{
+    text-decoration: none;
+    color: #aeaeae;
+}

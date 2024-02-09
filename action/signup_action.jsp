@@ -54,6 +54,7 @@
             error = true;        
         }
 
+        //아이디 중복 체크도 if-else
 
         if(!error){
             String seconSql = "INSERT INTO account(id, password, name, tel_number) VALUES(?, ?, ?, ?)"; 

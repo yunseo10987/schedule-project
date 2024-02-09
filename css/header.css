@@ -6,7 +6,7 @@ header{
     justify-content: space-between;
     align-items: center;
 }
-h1{
+header > h1{
     margin: 0px 0px 0px 20px;
 }
 .menu{
@@ -20,11 +20,9 @@ h1{
 h2{
     width: 420px;
     margin: 20px auto 20px auto;
-    font-size: 40px;
 }
 a{  
     font-size: 18px;
-    text-decoration: none;
     color: black;
 }
 #main_page_a{
