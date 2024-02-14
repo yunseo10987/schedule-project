@@ -36,6 +36,8 @@
             }
         }
 
-        setLocation()
+        window.onload = function () {
+            setLocation()
+        }       
     </script>
 </body>

@@ -40,40 +40,39 @@
         }
         
         if(Integer.valueOf(yearValue) > 2199 || Integer.valueOf(yearValue) < 1901){
-            error = true;
+            throw new Exception();
         }
         if(Integer.valueOf(monthValue) > 12 || Integer.valueOf(monthValue) < 1){
-            error = true;
+            throw new Exception();
         }
 
-        if(!error){
-            for(int i = 1; i <= 31; i++){
-                Class.forName("com.mysql.jdbc.Driver"); 
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
-                ArrayList<ArrayList<String>> elem = new ArrayList<ArrayList<String>>();
-                String sql = "SELECT idx, hour, minute, content FROM schedule WHERE year =? AND month =? AND writer =? AND day=? ORDER BY hour,minute"; 
-                PreparedStatement query = conn.prepareStatement(sql); 
-                query.setString(1, yearValue);
-                query.setString(2, monthValue);
-                query.setString(3, accountIdx);
-                query.setString(4, String.valueOf(i));
+        
+        for(int i = 1; i <= 31; i++){
+            Class.forName("com.mysql.jdbc.Driver"); 
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
+            ArrayList<ArrayList<String>> elem = new ArrayList<ArrayList<String>>();
+            String sql = "SELECT idx, hour, minute, content FROM schedule WHERE year =? AND month =? AND writer =? AND day=? ORDER BY hour,minute"; 
+            PreparedStatement query = conn.prepareStatement(sql); 
+            query.setString(1, yearValue);
+            query.setString(2, monthValue);
+            query.setString(3, accountIdx);
+            query.setString(4, String.valueOf(i));
 
-                ResultSet result = query.executeQuery(); 
-                while(result.next()){
-                    String idx = result.getString(1);
-                    String hour = result.getString(2);
-                    String minute = result.getString(3);
-                    String content = result.getString(4);
-                    ArrayList<String> list = new ArrayList<String>();
-                    
-                    list.add("\"" + idx + "\"");
-                    list.add("\"" + hour + "\"");
-                    list.add("\"" + minute + "\"");
-                    list.add("\"" + content + "\"");
-                    elem.add(list);
-                }
-                data.add(elem);
+            ResultSet result = query.executeQuery(); 
+            while(result.next()){
+                String idx = result.getString(1);
+                String hour = result.getString(2);
+                String minute = result.getString(3);
+                String content = result.getString(4);
+                ArrayList<String> list = new ArrayList<String>();
+                
+                list.add("\"" + idx + "\"");
+                list.add("\"" + hour + "\"");
+                list.add("\"" + minute + "\"");
+                list.add("\"" + content + "\"");
+                elem.add(list);
             }
+            data.add(elem);        
         }     
 
     }
@@ -258,6 +257,7 @@
         }
 
         window.onload = function () {
+
             createCalendar()
             createMonthButton()
             createMonthEvent()

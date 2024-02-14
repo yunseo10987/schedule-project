@@ -10,7 +10,7 @@
  
  <% 
     request.setCharacterEncoding("utf-8"); 
-    boolean error = false;
+    
     String idValue = null;
     String pwValue = null;
     String nameValue = null;
@@ -24,16 +24,16 @@
         telValue = request.getParameter("tel_value");
 
         if(!Pattern.matches("^(?=.*\\d)(?=.*[a-z])[0-9a-z]{8,12}$", idValue)){
-            error = true;
+            throw new Exception();
         }
         if(!Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@[$]!%*#^?&\\(\\)-_=+]).{8,16}$", pwValue)){
-            error = true;
+            throw new Exception();
         }
         if(nameValue.length() > 12 || nameValue.length() < 1){
-            error = true;
+            throw new Exception();
         }
         if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
-            error = true;
+            throw new Exception();
         }
 
         Class.forName("com.mysql.jdbc.Driver");
@@ -44,28 +44,25 @@
         PreparedStatement firstQuery = conn.prepareStatement(firstSql);
         firstQuery.setString(1, idValue);
 
-        ResultSet firstResult = firstQuery.executeQuery(); 
+        ResultSet firstResult = firstQuery.executeQuery();
 
         while(firstResult.next()){
             idxValue = firstResult.getString(1);    
         }    
         
         if(idxValue != ""){
-            error = true;        
+            throw new Exception();        
         }
+        
+        String seconSql = "INSERT INTO account(id, password, name, tel_number) VALUES(?, ?, ?, ?)"; 
+        PreparedStatement secondQuery = conn.prepareStatement(seconSql); 
+        secondQuery.setString(1, idValue);
+        secondQuery.setString(2, pwValue);
+        secondQuery.setString(3, nameValue);
+        secondQuery.setString(4, telValue);
 
-        //아이디 중복 체크도 if-else
-
-        if(!error){
-            String seconSql = "INSERT INTO account(id, password, name, tel_number) VALUES(?, ?, ?, ?)"; 
-            PreparedStatement secondQuery = conn.prepareStatement(seconSql); 
-            secondQuery.setString(1, idValue);
-            secondQuery.setString(2, pwValue);
-            secondQuery.setString(3, nameValue);
-            secondQuery.setString(4, telValue);
-
-            secondQuery.executeUpdate(); 
-        }
+        secondQuery.executeUpdate(); 
+        
     }
     catch(Exception e){
         response.sendRedirect("../page/error_page.jsp");
@@ -80,14 +77,9 @@
 </head>
 <body>
     <script>
-        var error = <%=error%>
-        if(!error){
+        window.onload = function () {          
             alert("<%=idValue%>" + "님의 회원가입이 성공하였습니다")
-            location.href= "../page/login_page.jsp"
-        }
-        else{
-            alert("<%=idValue%>" + "님의 회원가입이 실패하였습니다")
-            location.href = "../page/signup_page.jsp"
+            location.href= "../page/login_page.jsp"            
         }
         
     </script>

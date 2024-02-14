@@ -9,7 +9,6 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    boolean error = false;
     String pwValue = null;
     String nameValue = null;
     String telValue = null;
@@ -24,30 +23,29 @@
         nameValue = request.getParameter("name_value");
         telValue = request.getParameter("tel_value");
         if(!Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@[$]!%*#^?&\\(\\)-_=+]).{8,16}$", pwValue)){
-            error = true;
+            throw new Exception();
         }
         if(nameValue.length() > 12 || nameValue.length() < 1){
-            error = true;
+            throw new Exception();
         }
         if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", telValue)){
-            error = true;
+            throw new Exception();
         }
+       
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
 
-        if(!error){
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
-
-            
-            String sql = "UPDATE account SET password=?, name=?, tel_number=? WHERE idx =?"; 
-            PreparedStatement query = conn.prepareStatement(sql); 
         
-            query.setString(1, pwValue);
-            query.setString(2, nameValue);
-            query.setString(3, telValue);
-            query.setString(4, accountIdx);
+        String sql = "UPDATE account SET password=?, name=?, tel_number=? WHERE idx =?"; 
+        PreparedStatement query = conn.prepareStatement(sql); 
+    
+        query.setString(1, pwValue);
+        query.setString(2, nameValue);
+        query.setString(3, telValue);
+        query.setString(4, accountIdx);
+    
+        query.executeUpdate(); 
         
-            query.executeUpdate(); 
-        }
     }
     catch(Exception e){
         response.sendRedirect("../page/error_page.jsp");
@@ -62,15 +60,10 @@
 <body>
 
     <script>
-        var error = <%=error%>
-        if(!error){
+        
+        window.onload = function () {
             alert("회원정보가 수정되었습니다.")
             location.href= "../page/myinfo_page.jsp"
-        }
-        else{
-            alert("회원정보 수정 실패하였습니다.")
-            location.href= "../page/myinfo_page.jsp"
-        }
-        
+        }        
     </script>
 </body>

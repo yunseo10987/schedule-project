@@ -90,7 +90,10 @@
                 }
 
             }
-            setDefault()
+            window.onload = function () {
+                setDefault()
+            }
+            
        </script>
     </main> 
 </body>

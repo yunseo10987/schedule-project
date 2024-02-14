@@ -85,7 +85,10 @@
             }
             document.getElementById("pw_result").innerHTML = "비밀번호 : " + hiddenPw 
         }
-        insertPw()
+        
+        window.onload = function(){
+            insertPw()
+        }
      </script>
 </body>
 </html>

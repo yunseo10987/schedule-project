@@ -9,7 +9,6 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    boolean error = false;
     String idxValue = null;
     String yearValue = null;
     String monthValue = null;
@@ -31,30 +30,30 @@
         textValue = request.getParameter("text_value");
 
         if(Integer.valueOf(hourValue) > 24 || Integer.valueOf(hourValue) < 0){
-            error = true;
+            throw new Exception();
         }
         if(Integer.valueOf(minuteValue) >59 || Integer.valueOf(minuteValue) < 0){
-            error = true;
+            throw new Exception();
         }
         if(textValue.length() < 0 || textValue.length() > 100){
-            error = true;
+            throw new Exception();
         }
 
-        if(!error){
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
+        
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule_web","stageus","1234"); 
 
-            
-            String sql = "UPDATE schedule SET hour=?, minute=?, content=? WHERE idx =?"; 
-            PreparedStatement query = conn.prepareStatement(sql); 
         
-            query.setString(1, hourValue);
-            query.setString(2, minuteValue);
-            query.setString(3, textValue);
-            query.setString(4, idxValue);
+        String sql = "UPDATE schedule SET hour=?, minute=?, content=? WHERE idx =?"; 
+        PreparedStatement query = conn.prepareStatement(sql); 
+    
+        query.setString(1, hourValue);
+        query.setString(2, minuteValue);
+        query.setString(3, textValue);
+        query.setString(4, idxValue);
+    
+        query.executeUpdate(); 
         
-            query.executeUpdate(); 
-        }
     }
     catch(Exception e){
         response.sendRedirect("../page/error_page.jsp");
@@ -67,16 +66,9 @@
     <title>Document</title>
 </head>
 <body>
-
     <script>
-        var error = <%=error%>
-        if(!error){
+        window.onload = function () {            
             location.href= "../page/main_page.jsp?" + "yearValue=" + <%=yearValue%> + "&monthValue=" + <%=monthValue%>
-        }
-        else{
-            alert("스케쥴 수정 실패하였습니다.")
-            location.href= "../page/main_page.jsp?yearValue=<%=yearValue%>&monthValue=<%=monthValue%>"
-        }
-        
+        }        
     </script>
 </body>
